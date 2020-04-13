@@ -1,6 +1,7 @@
 #gameDisplay {
     display: flex;
     justify-content: space-evenly;
+    margin-bottom: 150px;
 }
 #imageSizer {
     width: 100%;
@@ -13,12 +14,13 @@
 
 .teamHolders {
     position: relative;
-    top: 200px;
+    top: 100px;
     text-align: center;
 }
 
 h1 {
     font-size: 4em;
+    text-align: center;
 }
 
 body {
@@ -27,8 +29,6 @@ body {
 }
 
 #carnageSpot {
-    position: absolute;
-    bottom: 5%;
     text-align: center;
     font-family: 'Girassol', cursive;
 }
