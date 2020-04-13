@@ -1,0 +1,39 @@
+#gameDisplay {
+    display: flex;
+    justify-content: space-evenly;
+}
+#imageSizer {
+    width: 100%;
+}
+
+.Team {
+    width: 300px;
+    text-align: center;
+}
+
+.teamHolders {
+    position: relative;
+    top: 200px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 4em;
+}
+
+body {
+    background-color: rgb(26, 138, 190);
+    color: white;
+}
+
+#carnageSpot {
+    position: absolute;
+    bottom: 5%;
+    text-align: center;
+    font-family: 'Girassol', cursive;
+}
+
+#carnageHolder {
+    display: flex;
+    justify-content: center;
+}
