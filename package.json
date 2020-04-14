@@ -1,0 +1,24 @@
+{
+  "name": "react-sportslab-hard",
+  "version": "1.0.0",
+  "description": "In this lab, you will build a simple sports game. This lab will exercise your comfort level with JSX, Both stateful and stateless ReactJS components, working with props, and leveraging local state within a stateful component.",
+  "main": "reactApp.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CoderJoe82/sportshard.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CoderJoe82/sportshard/issues"
+  },
+  "homepage": "https://github.com/CoderJoe82/sportshard#readme",
+  "dependencies": {
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11"
+  }
+}

@@ -1,19 +1,26 @@
-class Team extends React.Component {
+class Game extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      resetCount: 0,
+      homeTeamStats: {
+        shots: 0,
+        score: 0,
+      },
+      visitingTeamStats: {
+        shots: 0,
+        score: 0,
+      },
+    };
     this.shotSound = new Audio("./assets/sounds/shoot.mp3");
     this.scoreSound = new Audio("./assets/sounds/score.mp3");
-
-    this.state = {
-      shots: 0,
-      score: 0,
-    };
   }
 
-  handleShot = () => {
-    let score = this.state.score;
-    this.shotSound.play();
+  shoot = (team) => {
+    const teamStatsKey = `${team}TeamStats`
+    let score = this.state[teamStatsKey].score;
+    this.shotSound.play()
     if (Math.random() > 0.5) {
       score += 1;
 
@@ -22,81 +29,100 @@ class Team extends React.Component {
       }, 500);
     }
 
-    console.log("shoot!");
     this.setState((state, props) => ({
-      shots: state.shots + 1,
-      score,
+      [teamStatsKey]: {
+        shots: state[teamStatsKey].shots + 1,
+        score
+      }
     }));
   };
 
-  render() {
-    let shotPercentageDiv;
+  resetGame = () => {
+    this.setState((state, props) => ({
+      resetCount: state.resetCount + 1,
+      homeTeamStats: {
+        shots: 0,
+        score: 0
+      },
+      visitingTeamStats: {
+        shots: 0,
+        score: 0
+      }
+    }))
+  }
 
-    if (this.state.shots) {
-      const shotPercentage = Math.round(
-        (this.state.score / this.state.shots) * 100
-      );
-      shotPercentageDiv = (
-        <div>
-          <strong>Shooting %: </strong> {shotPercentage}
-        </div>
-      );
-    }
+  render() {
     return (
-      <div className="Team">
-        <h2>{this.props.name}</h2>
+      <React.Fragment>
         <div>
-          <img
-            src={this.props.logo}
-            alt={this.props.name}
-            id="imageSizer"
-          />
+          <h1>Welcome to {this.props.venue}</h1>
+          <div id="gameDisplay">
+            <div className="teamHolders">
+              <Team
+                name={this.props.visitingTeam.name}
+                logo={this.props.visitingTeam.logoSrc}
+                stats={this.state.visitingTeamStats}
+                handlingShots={() => this.shoot('visiting')}
+              />
+              <h3>
+                One rummages through your trash
+                <br /> without asking!!!!
+              </h3>
+            </div>
+            <div>
+              <h1>VS</h1>
+              <div>
+                <strong>Resets:</strong> {this.state.resetCount}
+                <button onClick = {this.resetGame}>Reset Game</button>
+              </div>
+            </div>
+            <div className="teamHolders">
+              <Team
+                name={this.props.homeTeam.name}
+                logo={this.props.homeTeam.logoSrc}
+                stats={this.state.homeTeamStats}
+                handlingShots={() => this.shoot('home')}
+              />
+              <h3>One tresspasses on your trees daily!!!!</h3>
+            </div>
+          </div>
         </div>
-        <div>
-          <strong>Shots:</strong> {this.state.shots}
+        <div id="carnageHolder">
+          <h1 id="carnageSpot">WHO WILL SURVIVE THE CARNAGE??!!!!</h1>
         </div>
-        <div>
-          <strong>Score:</strong> {this.state.score}
-        </div>
-        {shotPercentageDiv}
-        <button onClick={this.handleShot}>Shoot!</button>
-      </div>
-    );
+      </React.Fragment>
+    )
   }
 }
 
-function Game(props) {
-  return (
-    <React.Fragment>
+function Team(props) {
+  let shotPercentageDiv;
+
+  if (props.stats.shots) {
+    const shotPercentage = Math.round(
+      (props.stats.score / props.stats.shots) * 100
+    );
+    shotPercentageDiv = (
       <div>
-        <h1>Welcome to {props.venue}</h1>
-        <div id="gameDisplay">
-          <div className="teamHolders">
-            <Team
-              name={props.visitingTeam.name}
-              logo={props.visitingTeam.logoSrc}
-            />
-            <h3>
-              One rummages through your trash
-              <br /> without asking!!!!
-            </h3>
-          </div>
-          <div>
-            <h1>VS</h1>
-          </div>
-          <div className="teamHolders">
-            <Team
-              name={props.homeTeam.name}
-              logo={props.homeTeam.logoSrc}
-            />
-            <h3>One tresspasses on your trees daily!!!!</h3>
-          </div>
-        </div>
+        <strong>Shooting %: {shotPercentage}</strong> 
       </div>
-      <div id="carnageHolder">
-        <h1 id="carnageSpot">WHO WILL SURVIVE THE CARNAGE??!!!!</h1>
+    );
+  }
+  return (
+    <div className="Team">
+      <h2>{props.name}</h2>
+      <div>
+        <img src={props.logo} alt={props.name} id="imageSizer" />
       </div>
-    </React.Fragment>
+      <div>
+        <strong>Shots:</strong> {props.stats.shots}
+      </div>
+      <div>
+        <strong>Score:</strong> {props.stats.score}
+      </div>
+      {shotPercentageDiv}
+      <button onClick={props.handlingShots}>Shoot!</button>
+    </div>
   );
 }
 
